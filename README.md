@@ -4,4 +4,9 @@ This project gives you an admin panel where you can create projects, save accoun
 
 Install:
 1) clone this project
-2) 
+2) run commands in root project dir:
+`cp .env.dist .env`
+`docker-compose up -d --build`
+`docker-compose exec --user=www-data php bash`
+`composer install`
+`bin/console doctrine:migrations:migrate -n`
