@@ -10,3 +10,5 @@ Install:
 `docker-compose exec --user=www-data php bash`
 `composer install`
 `bin/console doctrine:migrations:migrate -n`
+`bin/console app:db:init --admin-email=[you_email] --admin-password=[password]`
+

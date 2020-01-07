@@ -35,3 +35,14 @@ services:
             - php
         volumes:
             - ./docker/logs/nginx/:/var/log/nginx
+    phpmyadmin:
+        restart: always
+        image: phpmyadmin/phpmyadmin
+        links:
+            - db:db
+        ports:
+            - 8750:80
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}

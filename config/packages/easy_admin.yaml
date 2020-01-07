@@ -1,4 +1,50 @@
 easy_admin:
-    entities:
-        - App\Entity\User
     site_name: 'SK-storage'
+    list:
+        actions: ['show', 'delete', 'edit', 'new', 'search']
+    edit:
+        actions: ['show', 'delete', 'list']
+    design:
+        menu:
+            - { entity: 'User', permission: 'ROLE_SUPER_ADMIN' }
+            - Project
+    entities:
+        User:
+            class: App\Entity\User
+            password_encoding: { algorithm: 'auto'}
+            new:
+                fields:
+                    - email
+                    - { property: 'plainPassword', type: 'password' }
+                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN': 'ROLE_SUPER_ADMIN' } } }
+            edit:
+                fields:
+                    - email
+                    - firstname
+                    - lastname
+                    - { property: 'plainPassword', type: 'password' }
+                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN': 'ROLE_SUPER_ADMIN' } } }
+            list:
+                fields:
+                    - email
+                    - firstname
+                    - lastname
+        Project:
+            class: App\Entity\Project
+            new:
+                fields:
+                    - title
+                    - description
+            edit:
+                fields:
+                    - title
+                    - description
+            list:
+                fields:
+                    - title
+                    - description
+            show:
+                fields:
+                    - title
+                    - description
+                    - accounts

@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\User;
 use App\Services\UserService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -47,7 +48,7 @@ class DbInitCommand extends Command
             return 1;
         }
 
-        $this->userService->createUser($adminEmail, $adminPassword, ['ROLE_ADMIN', 'ROLE_USER'], true);
+        $this->userService->createUser($adminEmail, $adminPassword, [User::ROLE_SUPER_ADMIN], true);
 
         $io->success('Success!');
 
