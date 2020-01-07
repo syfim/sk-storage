@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+    db:
+        image: mysql
+        restart: always
+        command: ["--default-authentication-plugin=mysql_native_password"]
+        volumes:
+            - "./docker/.data/db:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    php:
+        build:
+            context: docker/php7-fpm
+            args:
+                TIMEZONE: ${TIMEZONE}
+        restart: always
+        volumes:
+            - ${SYMFONY_APP_PATH}:/var/www/symfony
+        environment:
+            APP_ENV: ${APP_ENV}
+            APP_DEBUG: ${APP_DEBUG}
+            APP_SECRET: ${APP_SECRET}
+            DATABASE_URL: ${DATABASE_URL}
+            MAILER_URL: ${MAILER_URL}
+    nginx:
+        build: docker/nginx
+        restart: always
+        ports:
+            - 8001:80
+        volumes_from:
+            - php
+        volumes:
+            - ./docker/logs/nginx/:/var/log/nginx
