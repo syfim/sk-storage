@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -52,6 +54,21 @@ class User implements UserInterface
     private $lastName;
 
     private $plainPassword;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Account", mappedBy="users")
+     */
+    private $accounts;
+
+    public function __construct()
+    {
+        $this->accounts = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName();
+    }
 
     public function getId(): ?int
     {
@@ -172,5 +189,33 @@ class User implements UserInterface
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
+    }
+
+    /**
+     * @return Collection|Account[]
+     */
+    public function getAccounts(): Collection
+    {
+        return $this->accounts;
+    }
+
+    public function addAccount(Account $account): self
+    {
+        if (!$this->accounts->contains($account)) {
+            $this->accounts[] = $account;
+            $account->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccount(Account $account): self
+    {
+        if ($this->accounts->contains($account)) {
+            $this->accounts->removeElement($account);
+            $account->removeUser($this);
+        }
+
+        return $this;
     }
 }

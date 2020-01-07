@@ -8,6 +8,7 @@ easy_admin:
         menu:
             - { entity: 'User', permission: 'ROLE_SUPER_ADMIN' }
             - Project
+            - Account
     entities:
         User:
             class: App\Entity\User
@@ -48,3 +49,43 @@ easy_admin:
                     - title
                     - description
                     - accounts
+        Account:
+            class: App\Entity\Account
+            new:
+                fields:
+                    - title
+                    - tag
+                    - login
+                    - password
+                    - link
+                    - extraData
+                    - project
+                    - description
+                    - users
+            edit:
+                fields:
+                    - title
+                    - tag
+                    - login
+                    - password
+                    - link
+                    - extraData
+                    - description
+                    - users
+            list:
+                fields:
+                    - project
+                    - title
+                    - tag
+                    - link
+            show:
+                fields:
+                    - title
+                    - tag
+                    - login
+                    - password
+                    - link
+                    - extraData
+                    - project
+                    - description
+                    - users
