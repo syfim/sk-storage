@@ -153,6 +153,10 @@ class User implements UserInterface
         return $this->firstName;
     }
 
+    /**
+     * @param string|null $firstName
+     * @return $this
+     */
     public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
@@ -160,11 +164,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
+    /**
+     * @param string|null $lastName
+     * @return $this
+     */
     public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
@@ -199,6 +210,10 @@ class User implements UserInterface
         return $this->accounts;
     }
 
+    /**
+     * @param Account $account
+     * @return $this
+     */
     public function addAccount(Account $account): self
     {
         if (!$this->accounts->contains($account)) {
@@ -209,6 +224,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Account $account
+     * @return $this
+     */
     public function removeAccount(Account $account): self
     {
         if ($this->accounts->contains($account)) {
@@ -217,5 +236,14 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->getRoles());
     }
 }

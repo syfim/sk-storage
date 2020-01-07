@@ -102,4 +102,17 @@ class Project
 
         return $this;
     }
+
+    public function getTagList():array
+    {
+        $tags = [];
+
+        foreach ($this->getAccounts() as $account) {
+            if (!empty($account->getTag()) && !in_array($account->getTag(), $tags)) {
+                $tags[] = $account->getTag();
+            }
+        }
+
+        return $tags;
+    }
 }
