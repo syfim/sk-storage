@@ -16,6 +16,8 @@ easy_admin:
             new:
                 fields:
                     - email
+                    - firstname
+                    - lastname
                     - { property: 'plainPassword', type: 'password' }
                     - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN': 'ROLE_SUPER_ADMIN' } } }
             edit:
