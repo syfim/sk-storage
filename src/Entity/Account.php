@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,21 +32,25 @@ class Account
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Encrypted
      */
     private $login;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Encrypted
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=511, nullable=true)
+     * @Encrypted
      */
     private $link;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Encrypted
      */
     private $extraData;
 
@@ -56,11 +61,13 @@ class Account
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Encrypted
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Encrypted
      */
     private $title;
 
