@@ -33,9 +33,15 @@ class Project
      */
     private $accounts;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MonitoringTask", mappedBy="project", orphanRemoval=true)
+     */
+    private $monitoringTasks;
+
     public function __construct()
     {
         $this->accounts = new ArrayCollection();
+        $this->monitoringTasks = new ArrayCollection();
     }
 
     public function __toString()
@@ -114,5 +120,36 @@ class Project
         }
 
         return $tags;
+    }
+
+    /**
+     * @return Collection|MonitoringTask[]
+     */
+    public function getMonitoringTasks(): Collection
+    {
+        return $this->monitoringTasks;
+    }
+
+    public function addMonitoringTask(MonitoringTask $monitoringTask): self
+    {
+        if (!$this->monitoringTasks->contains($monitoringTask)) {
+            $this->monitoringTasks[] = $monitoringTask;
+            $monitoringTask->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMonitoringTask(MonitoringTask $monitoringTask): self
+    {
+        if ($this->monitoringTasks->contains($monitoringTask)) {
+            $this->monitoringTasks->removeElement($monitoringTask);
+            // set the owning side to null (unless already changed)
+            if ($monitoringTask->getProject() === $this) {
+                $monitoringTask->setProject(null);
+            }
+        }
+
+        return $this;
     }
 }

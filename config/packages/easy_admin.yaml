@@ -9,6 +9,7 @@ easy_admin:
             - { entity: 'User', permission: 'ROLE_SUPER_ADMIN' }
             - Project
             - Account
+            - MonitoringTask
     entities:
         User:
             class: App\Entity\User
@@ -91,3 +92,35 @@ easy_admin:
                     - project
                     - description
                     - users
+        MonitoringTask:
+            class: App\Entity\MonitoringTask
+            new:
+                fields:
+                    - project
+                    - url
+                    - { property: 'requestMethod', type: 'choice', type_options: { multiple: false, choices: { 'GET': 'GET', 'POST': 'POST', 'PATH': 'PATH', 'PUT': 'PUT', 'DELETE': 'DELETE' } } }
+                    - expectedResponseCode
+                    - expectedResponseBody
+                    - checkIntervalSeconds
+            edit:
+                fields:
+                    - url
+                    - { property: 'requestMethod', type: 'choice', type_options: { multiple: false, choices: { 'GET': 'GET', 'POST': 'POST', 'PATH': 'PATH', 'PUT': 'PUT', 'DELETE': 'DELETE' } } }
+                    - expectedResponseCode
+                    - expectedResponseBody
+                    - checkIntervalSeconds
+            list:
+                fields:
+                    - id
+                    - project
+                    - url
+                    - requestMethod
+                    - checkIntervalSeconds
+            show:
+                fields:
+                    - id
+                    - url
+                    - requestMethod
+                    - expectedResponseCode
+                    - expectedResponseBody
+                    - checkIntervalSeconds

@@ -1,61 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html.twig' %}
 
-<head>
+{% block body %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">
+            <span class="d-block d-lg-none">SK-storage</span>
+            <span class="d-none d-lg-block">
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                {% for project in projects %}
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#project_{{ project.id }}">{{ project.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </nav>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <div class="container-fluid p-0">
+        {% for project in projects %}
+            <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="project_{{ project.id }}">
+                <div class="w-100">
+                    <h2 class="mb-5">{{ project.title }}</h2>
+                    {% for tag in project.tagList %}
+                        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+                            <div class="resume-content">
+                                <h3 class="mb-0">{{ tag }}</h3>
+                                {% for account in project.accounts %}
+                                    {% if account.tag == tag %}
+                                        <br>
+                                        <table class="tg" style="border-width: medium">
+                                            <tr>
+                                                <th class="tg-0lax">Title: </th>
+                                                <td class="tg-0lax">  {{ account.title }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="tg-0lax">Link: </th>
+                                                <td class="tg-0lax">  <a href="{{ account.link }}">{{ account.link }}</a></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="tg-0lax">Login: </th>
+                                                <td class="tg-0lax">  {{ account.login }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="tg-0lax">Password: </th>
+                                                <td class="tg-0lax">  {{ account.password }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="tg-0lax">Description: </th>
+                                                <td class="tg-0lax">  {{ account.description }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="tg-0lax">Extra Data: </th>
+                                                <td class="tg-0lax">  {{ account.extraData }}</td>
+                                            </tr>
+                                        </table>
+                                        <br>
+                                        <hr class="m-0">
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
 
-    <title>SK-storage</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom fonts for this template -->
-    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="css/resume.min.css" rel="stylesheet">
-
-</head>
-
-<body id="page-top">
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-    <a class="navbar-brand js-scroll-trigger" href="#page-top">
-        <span class="d-block d-lg-none">SK-storage</span>
-        <span class="d-none d-lg-block">
-      </span>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav">
-            {% for project in projects %}
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="#project_{{ project.id }}">{{ project.title }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-</nav>
-
-<div class="container-fluid p-0">
-    {% for project in projects %}
-        <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="project_{{ project.id }}">
-            <div class="w-100">
-                <h2 class="mb-5">{{ project.title }}</h2>
-                {% for tag in project.tagList %}
                     <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="resume-content">
-                            <h3 class="mb-0">{{ tag }}</h3>
-                            {% for account in project.accounts %}
-                                {% if account.tag == tag %}
+                            <h3 class="mb-0">Без тега</h3>
+                                {% for account in project.accounts %}
+                                    {% if account.tag is empty %}
                                     <br>
                                     <table class="tg" style="border-width: medium">
                                         <tr>
@@ -89,62 +105,9 @@
                             {% endfor %}
                         </div>
                     </div>
-                {% endfor %}
-
-                <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
-                    <div class="resume-content">
-                        <h3 class="mb-0">Без тега</h3>
-                            {% for account in project.accounts %}
-                                {% if account.tag is empty %}
-                                <br>
-                                <table class="tg" style="border-width: medium">
-                                    <tr>
-                                        <th class="tg-0lax">Title: </th>
-                                        <td class="tg-0lax">  {{ account.title }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="tg-0lax">Link: </th>
-                                        <td class="tg-0lax">  <a href="{{ account.link }}">{{ account.link }}</a></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="tg-0lax">Login: </th>
-                                        <td class="tg-0lax">  {{ account.login }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="tg-0lax">Password: </th>
-                                        <td class="tg-0lax">  {{ account.password }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="tg-0lax">Description: </th>
-                                        <td class="tg-0lax">  {{ account.description }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="tg-0lax">Extra Data: </th>
-                                        <td class="tg-0lax">  {{ account.extraData }}</td>
-                                    </tr>
-                                </table>
-                                <br>
-                                <hr class="m-0">
-                            {% endif %}
-                        {% endfor %}
-                    </div>
                 </div>
-            </div>
-        </section>
-        <hr class="m-0">
-    {% endfor %}
-</div>
-
-<!-- Bootstrap core JavaScript -->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Plugin JavaScript -->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for this template -->
-<script src="js/resume.min.js"></script>
-
-</body>
-
-</html>
+            </section>
+            <hr class="m-0">
+        {% endfor %}
+    </div>
+{% endblock %}
