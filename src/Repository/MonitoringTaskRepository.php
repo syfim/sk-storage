@@ -19,32 +19,13 @@ class MonitoringTaskRepository extends ServiceEntityRepository
         parent::__construct($registry, MonitoringTask::class);
     }
 
-    // /**
-    //  * @return MonitoringTask[] Returns an array of MonitoringTask objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findTasksForCheck()
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('t')
+            ->where('t.nextCheckAt < :currentAt OR t.nextCheckAt IS NULL')
+            ->setParameter('currentAt', new \DateTime())
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?MonitoringTask
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

@@ -76,6 +76,11 @@ class MonitoringTask
      */
     private $onErrorMessage;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $onBackToStableMessage;
+
     public function __construct()
     {
         $this->isReportSent = false;
@@ -200,12 +205,7 @@ class MonitoringTask
      */
     public function updateNextCheckAt(): self
     {
-        if (empty($this->getLastCheckAt())) {
-            $this->setNextCheckAt(new DateTime('@' . (time() + $this->getCheckIntervalMinutes())));
-        } else {
-            $last = $this->getLastCheckAt();
-            $last->setTimestamp($last->getTimestamp() + $this->getCheckIntervalMinutes());
-        }
+        $this->setNextCheckAt(new DateTime('+' . $this->getCheckIntervalMinutes() . ' minutes'));
 
         return $this;
     }
@@ -230,6 +230,18 @@ class MonitoringTask
     public function setOnErrorMessage(?string $onErrorMessage): self
     {
         $this->onErrorMessage = $onErrorMessage;
+
+        return $this;
+    }
+
+    public function getOnBackToStableMessage(): ?string
+    {
+        return $this->onBackToStableMessage;
+    }
+
+    public function setOnBackToStableMessage(string $onBackToStableMessage): self
+    {
+        $this->onBackToStableMessage = $onBackToStableMessage;
 
         return $this;
     }

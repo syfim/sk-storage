@@ -58,9 +58,32 @@ class MonitoringService
         }
 
         foreach ($data as $datum) {    // start check async responses
-            if (!$this->checkResponseIsCorrect($datum['response'], $datum['task'])) {
-                $this->messageBus->dispatch(new TelegramNotification($datum['task']->getUrl() . ' не доступен!', $datum['task']->getTelegramChat()));
-                dump('error');
+            $isCorrect = $this->checkResponseIsCorrect($datum['response'], $datum['task']);
+
+            if ($datum['task']->getIsReportSent()) {
+                if ($isCorrect) {
+                    // now remote server fixed and work stable (first iteration)
+                    $this->messageBus->dispatch(
+                        new TelegramNotification(
+                            $datum['task']->getOnBackToStableMessage(),
+                            $datum['task']->getTelegramChat()
+                        )
+                    );
+
+                    $datum['task']->setIsReportSent(false);
+                }
+            } else {
+                if (!$isCorrect) {
+                    // now remote server is broken (first iteration)
+                    $this->messageBus->dispatch(
+                        new TelegramNotification(
+                            $datum['task']->getOnErrorMessage(),
+                            $datum['task']->getTelegramChat()
+                        )
+                    );
+
+                    $datum['task']->setIsReportSent(true);
+                }
             }
         }
 
@@ -88,16 +111,12 @@ class MonitoringService
      */
     private function checkResponseIsCorrect(ResponseInterface $response, MonitoringTask &$task): bool
     {
-        if (!empty($task->getExpectedResponseCode())) {
-            if ($response->getStatusCode() !== $task->getExpectedResponseCode()) {
-                return false;
-            }
+        if (!empty($task->getExpectedResponseCode()) && $response->getStatusCode() !== $task->getExpectedResponseCode()) {
+            return false;
         }
 
-        if (!empty($task->getExpectedResponseBody())) {
-            if ($response->getContent(false) != $task->getExpectedResponseCode()) {
-                return false;
-            }
+        if (!empty($task->getExpectedResponseBody()) && $response->getContent(false) != $task->getExpectedResponseCode()) {
+            return false;
         }
 
         return true;
