@@ -30,9 +30,11 @@ $ exit
 ```
 added new cron record
 ```bash
-$ crontab -e
+$ sudo crontab -e
 ```
-insert string
+insert strings
+
+`PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin` (only if you have problem without it)
 `* * * * * docker-compose -f /path_to_project/docker-compose.yml exec -T php /var/www/symfony/bin/console app:monitoring:check-all`
 
 3) Open `localhost:8001` and sign in like admin from the previous step (you can change port in `docker-compose.yml` file

@@ -68,6 +68,7 @@ class MonitoringTask
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TelegramChat", inversedBy="monitoringTasks")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $telegramChat;
 
