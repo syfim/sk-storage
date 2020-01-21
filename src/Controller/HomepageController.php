@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\AccountRepository;
+use App\Repository\MonitoringTaskRepository;
 use App\Repository\ProjectRepository;
+use App\Services\MonitoringService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,7 +18,7 @@ class HomepageController extends AbstractController
      * @param AccountRepository $accountRepository
      * @return Response
      */
-    public function index(AccountRepository $accountRepository, ProjectRepository $projectRepository)
+    public function index(AccountRepository $accountRepository, ProjectRepository $projectRepository, MonitoringService $monitoringService, MonitoringTaskRepository $monitoringTaskRepository)
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -26,6 +28,8 @@ class HomepageController extends AbstractController
         } else {
             $projects = $projectRepository->findByUser($this->getUser());
         }
+
+        $monitoringService->checkMonitoringTasks($monitoringTaskRepository->findAll());
 
         return $this->render('homepage/index.html.twig', [
             'projects' => $projects

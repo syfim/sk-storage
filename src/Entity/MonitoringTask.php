@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MonitoringTaskRepository")
@@ -51,6 +55,21 @@ class MonitoringTask
      * @ORM\Column(type="string", length=255)
      */
     private $requestMethod;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $nextCheckAt;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isReportSent;
+
+    public function __construct()
+    {
+        $this->isReportSent = false;
+    }
 
     public function getId(): ?int
     {
@@ -105,12 +124,12 @@ class MonitoringTask
         return $this;
     }
 
-    public function getLastCheckAt(): ?\DateTimeInterface
+    public function getLastCheckAt(): ?DateTimeInterface
     {
         return $this->lastCheckAt;
     }
 
-    public function setLastCheckAt(?\DateTimeInterface $lastCheckAt): self
+    public function setLastCheckAt(?DateTimeInterface $lastCheckAt): self
     {
         $this->lastCheckAt = $lastCheckAt;
 
@@ -137,6 +156,46 @@ class MonitoringTask
     public function setRequestMethod(string $requestMethod): self
     {
         $this->requestMethod = $requestMethod;
+
+        return $this;
+    }
+
+    public function getNextCheckAt(): ?DateTimeInterface
+    {
+        return $this->nextCheckAt;
+    }
+
+    public function setNextCheckAt(?DateTimeInterface $nextCheckAt): self
+    {
+        $this->nextCheckAt = $nextCheckAt;
+
+        return $this;
+    }
+
+    public function getIsReportSent(): ?bool
+    {
+        return $this->isReportSent;
+    }
+
+    public function setIsReportSent(bool $isReportSent): self
+    {
+        $this->isReportSent = $isReportSent;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     * @throws Exception
+     */
+    public function updateNextCheckAt(): self
+    {
+        if (empty($this->getLastCheckAt())) {
+            $this->setNextCheckAt(new DateTime('@' . (time() + $this->getCheckIntervalSeconds())));
+        } else {
+            $last = $this->getLastCheckAt();
+            $last->setTimestamp($last->getTimestamp() + $this->getCheckIntervalSeconds());
+        }
 
         return $this;
     }
