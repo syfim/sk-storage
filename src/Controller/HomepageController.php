@@ -15,10 +15,10 @@ class HomepageController extends AbstractController
 {
     /**
      * @Route("/", name="homepage")
-     * @param AccountRepository $accountRepository
+     * @param ProjectRepository $projectRepository
      * @return Response
      */
-    public function index(AccountRepository $accountRepository, ProjectRepository $projectRepository, MonitoringService $monitoringService, MonitoringTaskRepository $monitoringTaskRepository)
+    public function index(ProjectRepository $projectRepository)
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -28,8 +28,6 @@ class HomepageController extends AbstractController
         } else {
             $projects = $projectRepository->findByUser($this->getUser());
         }
-
-        $monitoringService->checkMonitoringTasks($monitoringTaskRepository->findAll());
 
         return $this->render('homepage/index.html.twig', [
             'projects' => $projects

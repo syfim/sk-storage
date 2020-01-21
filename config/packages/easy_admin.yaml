@@ -10,6 +10,7 @@ easy_admin:
             - Project
             - Account
             - MonitoringTask
+            - TelegramChat
     entities:
         User:
             class: App\Entity\User
@@ -101,21 +102,27 @@ easy_admin:
                     - { property: 'requestMethod', type: 'choice', type_options: { multiple: false, choices: { 'GET': 'GET', 'POST': 'POST', 'PATH': 'PATH', 'PUT': 'PUT', 'DELETE': 'DELETE' } } }
                     - expectedResponseCode
                     - expectedResponseBody
-                    - checkIntervalSeconds
+                    - checkIntervalMinutes
+                    - onErrorMessage
+                    - telegramChat
             edit:
                 fields:
                     - url
                     - { property: 'requestMethod', type: 'choice', type_options: { multiple: false, choices: { 'GET': 'GET', 'POST': 'POST', 'PATH': 'PATH', 'PUT': 'PUT', 'DELETE': 'DELETE' } } }
                     - expectedResponseCode
                     - expectedResponseBody
-                    - checkIntervalSeconds
+                    - checkIntervalMinutes
+                    - onErrorMessage
+                    - telegramChat
             list:
                 fields:
                     - id
                     - project
                     - url
                     - requestMethod
-                    - checkIntervalSeconds
+                    - checkIntervalMinutes
+                    - onErrorMessage
+                    - telegramChat
             show:
                 fields:
                     - id
@@ -123,4 +130,32 @@ easy_admin:
                     - requestMethod
                     - expectedResponseCode
                     - expectedResponseBody
-                    - checkIntervalSeconds
+                    - checkIntervalMinutes
+                    - onErrorMessage
+                    - telegramChat
+        TelegramChat:
+            class: App\Entity\TelegramChat
+            new:
+                fields:
+                    - title
+                    - botId
+                    - botToken
+                    - chatId
+            edit:
+                fields:
+                    - title
+                    - botId
+                    - botToken
+                    - chatId
+            list:
+                fields:
+                    - title
+                    - botId
+                    - botToken
+                    - chatId
+            show:
+                fields:
+                    - title
+                    - botId
+                    - botToken
+                    - chatId

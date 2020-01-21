@@ -16,6 +16,11 @@ In sk-storage all sensitive user data is stored in the database in encrypted for
 
 ```bash
 $ cp .env.dist .env
+```
+
+change param `PROXY_URL` in .env (if you don't need proxy, set it empty string)
+
+```bash
 $ docker-compose up -d --build
 $ docker-compose exec --user=www-data php bash
 $ composer install

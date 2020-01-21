@@ -26,6 +26,7 @@ services:
             APP_SECRET: ${APP_SECRET}
             DATABASE_URL: ${DATABASE_URL}
             MAILER_URL: ${MAILER_URL}
+            PROXY_URL: ${PROXY_URL}
     nginx:
         build: docker/nginx
         restart: always

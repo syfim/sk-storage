@@ -49,7 +49,7 @@ class MonitoringTask
     /**
      * @ORM\Column(type="integer")
      */
-    private $checkIntervalSeconds;
+    private $checkIntervalMinutes;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -65,6 +65,16 @@ class MonitoringTask
      * @ORM\Column(type="boolean")
      */
     private $isReportSent;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TelegramChat", inversedBy="monitoringTasks")
+     */
+    private $telegramChat;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $onErrorMessage;
 
     public function __construct()
     {
@@ -136,14 +146,14 @@ class MonitoringTask
         return $this;
     }
 
-    public function getCheckIntervalSeconds(): ?int
+    public function getCheckIntervalMinutes(): ?int
     {
-        return $this->checkIntervalSeconds;
+        return $this->checkIntervalMinutes;
     }
 
-    public function setCheckIntervalSeconds(int $checkIntervalSeconds): self
+    public function setCheckIntervalMinutes(int $checkIntervalMinutes): self
     {
-        $this->checkIntervalSeconds = $checkIntervalSeconds;
+        $this->checkIntervalMinutes = $checkIntervalMinutes;
 
         return $this;
     }
@@ -191,11 +201,35 @@ class MonitoringTask
     public function updateNextCheckAt(): self
     {
         if (empty($this->getLastCheckAt())) {
-            $this->setNextCheckAt(new DateTime('@' . (time() + $this->getCheckIntervalSeconds())));
+            $this->setNextCheckAt(new DateTime('@' . (time() + $this->getCheckIntervalMinutes())));
         } else {
             $last = $this->getLastCheckAt();
-            $last->setTimestamp($last->getTimestamp() + $this->getCheckIntervalSeconds());
+            $last->setTimestamp($last->getTimestamp() + $this->getCheckIntervalMinutes());
         }
+
+        return $this;
+    }
+
+    public function getTelegramChat(): ?TelegramChat
+    {
+        return $this->telegramChat;
+    }
+
+    public function setTelegramChat(?TelegramChat $telegramChat): self
+    {
+        $this->telegramChat = $telegramChat;
+
+        return $this;
+    }
+
+    public function getOnErrorMessage(): ?string
+    {
+        return $this->onErrorMessage;
+    }
+
+    public function setOnErrorMessage(?string $onErrorMessage): self
+    {
+        $this->onErrorMessage = $onErrorMessage;
 
         return $this;
     }

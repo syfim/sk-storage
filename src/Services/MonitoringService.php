@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Entity\MonitoringTask;
+use App\Message\TelegramNotification;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -17,14 +19,17 @@ class MonitoringService
 {
     private $httpClient;
     private $em;
+    private $messageBus;
 
     public function __construct(
         HttpClientInterface $httpClient,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        MessageBusInterface $messageBus
     )
     {
         $this->httpClient = $httpClient;
         $this->em = $em;
+        $this->messageBus = $messageBus;
     }
 
     /**
@@ -54,6 +59,7 @@ class MonitoringService
 
         foreach ($data as $datum) {    // start check async responses
             if (!$this->checkResponseIsCorrect($datum['response'], $datum['task'])) {
+                $this->messageBus->dispatch(new TelegramNotification($datum['task']->getUrl() . ' не доступен!', $datum['task']->getTelegramChat()));
                 dump('error');
             }
         }
