@@ -26,7 +26,14 @@ $ docker-compose exec --user=www-data php bash
 $ composer install
 $ bin/console doctrine:migrations:migrate -n
 $ bin/console app:db:init --admin-email=[you_email] --admin-password=[you_password]
+$ exit
 ```
+added new cron record
+```bash
+$ crontab -e
+```
+insert string
+`* * * * * docker-compose -f /path_to_project/docker-compose.yml exec -T php /var/www/symfony/bin/console app:monitoring:check-all`
 
 3) Open `localhost:8001` and sign in like admin from the previous step (you can change port in `docker-compose.yml` file
 
