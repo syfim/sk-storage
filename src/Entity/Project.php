@@ -109,6 +109,21 @@ class Project
         return $this;
     }
 
+    public function userHaveAccessToProject(User $user)
+    {
+        if ($user->hasRole(User::ROLE_ADMIN) || $user->hasRole(User::ROLE_SUPER_ADMIN)) {
+            return true;
+        }
+
+        foreach ($this->getAccounts() as $account) {
+            if ($account->getUsers()->contains($user)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function getTagList():array
     {
         $tags = [];
@@ -151,5 +166,29 @@ class Project
         }
 
         return $this;
+    }
+
+    public function getMonitoringStatusOk()
+    {
+        foreach ($this->getMonitoringTasks() as $task) {
+            if ($task->getIsReportSent()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function getBadMonitoringStatusCount()
+    {
+        $i = 0;
+
+        foreach ($this->getMonitoringTasks() as $task) {
+            if ($task->getIsReportSent()) {
+                $i++;
+            }
+        }
+
+        return $i;
     }
 }

@@ -1,39 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/ico" />
 
-        <title>{% block title %}SK-storage!{% endblock %}</title>
+    <title>{% block title %}Sk-storage{% endblock %}</title>
 
-        {% block stylesheets %}
-            <!-- Bootstrap core CSS -->
-            <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    {% block stylesheets %}
+        <!-- Bootstrap -->
+        <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+        <!-- NProgress -->
+        <link href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
+        <!-- iCheck -->
+        <link href="{{ asset('vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
 
-            <!-- Custom fonts for this template -->
-            <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
-            <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
-            <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+        <!-- bootstrap-progressbar -->
+        <link href="{{ asset('vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet">
+        <!-- JQVMap -->
+        <link href="{{ asset('vendors/jqvmap/dist/jqvmap.min.css') }}" rel="stylesheet"/>
+        <!-- bootstrap-daterangepicker -->
+        <link href="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
 
-            <!-- Custom styles for this template -->
-            <link href="css/resume.min.css" rel="stylesheet">
-        {% endblock %}
-    </head>
+        <!-- Custom Theme Style -->
+        <link href="{{ asset('build/css/custom.min.css') }}" rel="stylesheet">
+    {% endblock %}
+</head>
 
-    <body id="page-top">
-        {% block body %}{% endblock %}
-        {% block javascripts %}
-            <!-- Bootstrap core JavaScript -->
-            <script src="vendor/jquery/jquery.min.js"></script>
-            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0;">
+                    <a href="{{ path('homepage') }}" class="site_title"><i class="fa fa-paw"></i> <span>SK-storage</span></a>
+                </div>
 
-            <!-- Plugin JavaScript -->
-            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+                <div class="clearfix"></div>
+                <br />
 
-            <!-- Custom scripts for this template -->
-            <script src="js/resume.min.js"></script>
-        {% endblock %}
-    </body>
+                {% block menu %}
+                <!-- sidebar menu -->
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                    <div class="menu_section">
+                        <h3>Projects</h3>
+                        <ul class="nav side-menu">
+                            {% for project in projects %}
+                                <li {% if currentProject == project %}class="active"{% endif %}><a href="{{ path('project_details', {id:project.id}) }}"><i class="fa fa-circle{% if currentProject != project %}-thin{% endif %}"></i>{{ project.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <!-- /sidebar menu -->
+                {% endblock %}
+            </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <div class="nav toggle">
+                    <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                </div>
+                <nav class="nav navbar-nav">
+                    <ul class=" navbar-right">
+                        <li class="nav-item dropdown open" style="padding-left: 15px;">
+                            <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
+                                John Doe
+                            </a>
+                            <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item"  href="{{ path('app_logout')}}"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+            <div class="pull-right">
+                SK-storage <a href="https://github.com/syfim/sk-storage">Github</a>
+            </div>
+            <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+    </div>
+</div>
+
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('vendors/jquery/dist/jquery.min.js') }}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- FastClick -->
+    <script src="{{ asset('vendors/fastclick/lib/fastclick.js') }}"></script>
+    <!-- NProgress -->
+    <script src="{{ asset('vendors/nprogress/nprogress.js') }}"></script>
+    <!-- Chart.js -->
+    <script src="{{ asset('vendors/Chart.js/dist/Chart.min.js') }}"></script>
+    <!-- gauge.js -->
+    <script src="{{ asset('vendors/gauge.js/dist/gauge.min.js') }}"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="{{ asset('vendors/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
+    <!-- iCheck -->
+    <script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
+    <!-- Skycons -->
+    <script src="{{ asset('vendors/skycons/skycons.js') }}"></script>
+    <!-- Flot -->
+    <script src="{{ asset('vendors/Flot/jquery.flot.js') }}"></script>
+    <script src="{{ asset('vendors/Flot/jquery.flot.pie.js') }}"></script>
+    <script src="{{ asset('vendors/Flot/jquery.flot.time.js') }}"></script>
+    <script src="{{ asset('vendors/Flot/jquery.flot.stack.js') }}"></script>
+    <script src="{{ asset('vendors/Flot/jquery.flot.resize.js') }}"></script>
+    <!-- Flot plugins -->
+    <script src="{{ asset('vendors/flot.orderbars/js/jquery.flot.orderBars.js') }}"></script>
+    <script src="{{ asset('vendors/flot-spline/js/jquery.flot.spline.min.js') }}"></script>
+    <script src="{{ asset('vendors/flot.curvedlines/curvedLines.js') }}"></script>
+    <!-- DateJS -->
+    <script src="{{ asset('vendors/DateJS/build/date.js') }}"></script>
+    <!-- JQVMap -->
+    <script src="{{ asset('vendors/jqvmap/dist/jquery.vmap.js') }}"></script>
+    <script src="{{ asset('vendors/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
+    <script src="{{ asset('vendors/jqvmap/examples/js/jquery.vmap.sampledata.js') }}"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="{{ asset('vendors/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('build/js/custom.min.js') }}"></script>
+{% endblock %}
+</body>
 </html>
