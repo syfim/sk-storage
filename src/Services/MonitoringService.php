@@ -58,17 +58,7 @@ class MonitoringService
         }
 
         foreach ($data as $datum) {    // start check async responses
-            try {
-                $isCorrect = $this->checkResponseIsCorrect($datum['response'], $datum['task']);
-            } catch (ClientExceptionInterface $e) {
-                $isCorrect = false;
-            } catch (RedirectionExceptionInterface $e) {
-                $isCorrect = false;
-            } catch (ServerExceptionInterface $e) {
-                $isCorrect = false;
-            } catch (TransportExceptionInterface $e) {
-                $isCorrect = false;
-            }
+            $isCorrect = $this->checkResponseIsCorrect($datum['response'], $datum['task']);
 
             if ($datum['task']->getIsReportSent()) {
                 if ($isCorrect) {
