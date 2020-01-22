@@ -17,6 +17,108 @@
         </div>
     </div>
     <!-- /top tiles -->
+    <div class="row">
+        <div class="col-md-12">
+            {% for tag in currentProject.tagList %}
+               <div class="x_panel">
+                    <div class="x_title">
+                        <h2>{{ tag }}</h2>
+                        <div class="clearfix"></div>
+                    </div>
+
+                   <div class="x_content row">
+                   {% for account in currentProject.accounts %}
+                       {% if account.tag == tag %}
+                                <div class="col-md-3 col-sm-12 ">
+                                    <div class="x_panel">
+                                        <div class="x_title">
+                                            <h2>{{ account.title }}</h2>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="x_content">
+                                            <table class="table">
+                                                <tbody>
+                                                <tr>
+                                                    <th scope="row">login</th>
+                                                    <td>{{account.login}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">password</th>
+                                                    <td>{{account.password}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">link</th>
+                                                    <td><a href="{{ account.link }}">{{account.link}}</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">extra data</th>
+                                                    <td>{{account.extraData}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">description</th>
+                                                    <td>{{account.description}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                   {% endif %}
+                {% endfor %}
+                   </div>
+            </div>
+            {% endfor %}
+               <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Another</h2>
+                        <div class="clearfix"></div>
+                    </div>
+
+                   <div class="x_content row">
+                   {% for account in currentProject.accounts %}
+                       {% if account.tag is empty  %}
+                                <div class="col-md-3 col-sm-12 ">
+                                    <div class="x_panel">
+                                        <div class="x_title">
+                                            <h2>{{ account.title }}</h2>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="x_content">
+                                            <table class="table">
+                                                <tbody>
+                                                <tr>
+                                                    <th scope="row">login</th>
+                                                    <td>{{account.login}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">password</th>
+                                                    <td>{{account.password}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">link</th>
+                                                    <td><a href="{{ account.link }}">{{account.link}}</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">extra data</th>
+                                                    <td>{{account.extraData}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">description</th>
+                                                    <td>{{account.description}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                   {% endif %}
+                {% endfor %}
+                   </div>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}
 
 {#{% block content %}#}
