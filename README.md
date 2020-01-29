@@ -1,4 +1,4 @@
-If you have many projects, you may need a convenient data storage for logging in (sites, databases, ssh, etc.), links and life monitoring systems.
+If you have many projects, you may need a convenient data storage for accounts (sites, databases, ssh, etc.), links and life monitoring systems.
 
 What is included in sk-storage:
 
@@ -34,12 +34,17 @@ $ sudo crontab -e
 ```
 insert strings
 
-`PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin` (only if you have problem without it)
 `* * * * * docker-compose -f /path_to_project/docker-compose.yml exec -T php /var/www/symfony/bin/console app:monitoring:check-all`
 
-3) Open `localhost:8001` and sign in like admin from the previous step (you can change port in `docker-compose.yml` file
+P.S. If you have problem with run command from cron, try insert this string in crontab:
+`
+`PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin`
+
+3) Open `localhost:8001` and sign in like admin from the previous step
 
 
-### Usage
+### Usage (coming soon)
 
 By default, the project will be available on port 8001, this can be changed in the `docker-compose.yml` file. 
+
+You can open `localhost:8001`  and `localhost:8001/admin` 
