@@ -111,6 +111,8 @@ class Project
 
     public function userHaveAccessToProject(User $user)
     {
+        // @ToDO use voters
+
         if ($user->hasRole(User::ROLE_ADMIN) || $user->hasRole(User::ROLE_SUPER_ADMIN)) {
             return true;
         }
@@ -168,7 +170,7 @@ class Project
         return $this;
     }
 
-    public function getMonitoringStatusOk()
+    public function isMonitoringStatusOk()
     {
         foreach ($this->getMonitoringTasks() as $task) {
             if ($task->getIsReportSent()) {
@@ -179,7 +181,7 @@ class Project
         return true;
     }
 
-    public function getBadMonitoringStatusCount()
+    public function getMonitoringStatusBadCount()
     {
         $i = 0;
 

@@ -25,6 +25,8 @@ class HomepageController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
+        // @ToDO Use voters
+
         if ($user->hasRole(User::ROLE_ADMIN) || $user->hasRole(User::ROLE_SUPER_ADMIN)) {
             $projects = $projectRepository->findAllWithAccounts();
         } else {
@@ -51,6 +53,8 @@ class HomepageController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
+
+        // @ToDO Use voters
 
         if (!$project->userHaveAccessToProject($user)) {
             throw new AccessDeniedException();

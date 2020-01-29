@@ -44,10 +44,11 @@ class MonitoringService
      */
     public function checkMonitoringTasks(array &$monitoringTasks, bool $withFlush = false): bool
     {
+        // The data array is used to store the relation between the request and the task (because requests are asynchronous)
         $data = [];
 
         /** @var MonitoringTask $task */
-        foreach ($monitoringTasks as $task) {    // start async requests
+        foreach ($monitoringTasks as $task) {
             $data[] = [
                 'task' => $task,
                 'response' =>  $this->httpClient->request(
@@ -57,12 +58,11 @@ class MonitoringService
             ];
         }
 
-        foreach ($data as $datum) {    // start check async responses
+        foreach ($data as $datum) {
             $isCorrect = $this->checkResponseIsCorrect($datum['response'], $datum['task']);
 
             if ($datum['task']->getIsReportSent()) {
                 if ($isCorrect) {
-                    // now remote server fixed and work stable (first iteration)
                     $this->messageBus->dispatch(
                         new TelegramNotification(
                             $datum['task']->getOnBackToStableMessage(),
@@ -74,7 +74,6 @@ class MonitoringService
                 }
             } else {
                 if (!$isCorrect) {
-                    // now remote server is broken (first iteration)
                     $this->messageBus->dispatch(
                         new TelegramNotification(
                             $datum['task']->getOnErrorMessage(),
