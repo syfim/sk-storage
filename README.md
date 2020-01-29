@@ -37,7 +37,7 @@ insert strings
 `* * * * * docker-compose -f /path_to_project/docker-compose.yml exec -T php /var/www/symfony/bin/console app:monitoring:check-all`
 
 P.S. If you have problem with run command from cron, try insert this string in crontab:
-`
+
 `PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin`
 
 3) Open `localhost:8001` and sign in like admin from the previous step
